@@ -4,7 +4,7 @@
     <div class="profile-content">
       <div class="user-info">
         <div class="avatar">
-          <img src="/infi-vo.png" alt="用户头像" />
+          <img src="/avator_default.png" alt="用户头像" />
         </div>
         <div class="user-details">
           <h3>用户名</h3>

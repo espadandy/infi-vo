@@ -2,7 +2,6 @@
   <div class="header">
     <div class="logo">
       <img src="/infi-vo.png" alt="Presidential Greats" />
-      <span>Presidential <b>GREATS</b></span>
     </div>
     
     <nav class="navigation">
@@ -16,9 +15,7 @@
       <router-link to="/profile" class="nav-item" active-class="active">
         我的
       </router-link>
-    </nav>
-    
-    <button class="customer-service">Customer Service</button>
+    </nav>    
   </div>
 </template>
 
@@ -31,13 +28,14 @@ const { totalItems } = useCart()
 <style scoped>
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 24px;
   border-bottom: 1px solid #eee;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   width: 800pt;
+  gap: 40px;
 }
 
 .logo {
@@ -48,15 +46,14 @@ const { totalItems } = useCart()
 }
 
 .logo img {
-  width: 40px;
-  height: 40px;
+  height: 50px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 .navigation {
   display: flex;
-  gap: 30px;
+  gap: 20px;
 }
 
 .nav-item {

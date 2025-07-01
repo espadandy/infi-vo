@@ -8,7 +8,7 @@
         class="card"
         @click="goToProduct(product.id)"
       >
-        <img :src="product.img" :alt="product.label" />
+        <img :src="getProductMainImage(product.id)" :alt="product.label" />
         <div class="label">{{ product.label }}</div>
       </div>
     </div>
@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { products } from '../data/products'
+import { getProductMainImage } from '../utils/productImages'
 
 const router = useRouter()
 

@@ -10,10 +10,18 @@
       <!-- Product Image Section -->
       <div class="product-image-section">
         <div class="main-image">
-          <img :src="product.img" :alt="product.name" />
+          <img :src="selectedImage" :alt="product?.name" />
         </div>
-        <div class="stock-status" :class="{ 'in-stock': product.inStock, 'out-of-stock': !product.inStock }">
-          {{ product.inStock ? '有库存' : '缺货' }}
+        <div class="image-thumbnails">
+          <img
+            v-for="img in getProductImages(product?.id)"
+            :key="img"
+            :src="img"
+            class="thumbnail"
+            :class="{ selected: img === selectedImage }"
+            @click="selectedImage = img"
+            :alt="product?.name"
+          />
         </div>
       </div>
 
@@ -21,11 +29,17 @@
       <div class="product-info-section">
         <h1 class="product-title">{{ product.name }}</h1>
         
-        <div class="product-rating">
-          <div class="stars">
-            <span v-for="i in 5" :key="i" class="star" :class="{ 'filled': i <= Math.floor(product.rating) }">★</span>
+        <div class="rating-stock-row">
+          <div class="product-rating">
+            <div class="stars">
+              <span v-for="i in 5" :key="i" class="star" :class="{ 'filled': i <= Math.floor(product.rating) }">★</span>
+            </div>
+            <span class="rating-text">{{ product.rating }} ({{ product.reviews }} 评价)</span>
           </div>
-          <span class="rating-text">{{ product.rating }} ({{ product.reviews }} 评价)</span>
+
+          <div class="stock-status" :class="{ 'in-stock': product.inStock, 'out-of-stock': !product.inStock }">
+            {{ product.inStock ? '有库存' : '缺货' }}
+          </div>
         </div>
 
         <div class="product-price">
@@ -41,9 +55,15 @@
           <button class="add-to-cart-btn" @click="addToCartHandler" :disabled="!product.inStock">
             {{ product.inStock ? '加入购物车' : '缺货' }}
           </button>
-          <button class="buy-now-btn" @click="buyNow" :disabled="!product.inStock">
-            {{ product.inStock ? '立即购买' : '缺货' }}
-          </button>
+          
+
+
+
+
+
+
+
+
         </div>
 
         <div class="product-category">
@@ -95,25 +115,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Related Products -->
-    <div class="related-products">
-      <h3>相关产品</h3>
-      <div class="related-grid">
-        <div 
-          v-for="relatedProduct in relatedProducts" 
-          :key="relatedProduct.id"
-          class="related-item"
-          @click="goToProduct(relatedProduct.id)"
-        >
-          <img :src="relatedProduct.img" :alt="relatedProduct.name" />
-          <div class="related-info">
-            <h4>{{ relatedProduct.name }}</h4>
-            <p class="related-price">¥{{ relatedProduct.price }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <div v-else class="product-not-found">
@@ -124,28 +125,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { getProductById, getProductByLabel, products, type Product } from '../data/products'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { getProductById, getProductByLabel, type Product } from '../data/products'
 import { useCart } from '../stores/cart'
+import { getProductImages } from '../utils/productImages'
 
 const route = useRoute()
-const router = useRouter()
 const { addToCart } = useCart()
 
 const product = ref<Product | undefined>(undefined)
 const activeTab = ref('features')
+const selectedImage = ref('')
 
 const tabs = [
   { id: 'features', label: '产品特色' },
   { id: 'details', label: '产品详情' },
   { id: 'specifications', label: '产品规格' },
 ]
-
-const relatedProducts = computed(() => {
-  if (!product.value) return []
-  return products.filter(p => p.id !== product.value?.id).slice(0, 4)
-})
 
 onMounted(() => {
   const productId = route.params.id as string
@@ -156,6 +153,17 @@ onMounted(() => {
     const productLabel = route.params.id as string
     product.value = getProductByLabel(productLabel)
   }
+  if (product.value) {
+    const imgs = getProductImages(product.value.id)
+    selectedImage.value = imgs.length > 0 ? imgs[0] : ''
+  }
+})
+
+watch(product, (newProduct) => {
+  if (newProduct) {
+    const imgs = getProductImages(newProduct.id)
+    selectedImage.value = imgs.length > 0 ? imgs[0] : ''
+  }
 })
 
 const addToCartHandler = () => {
@@ -165,16 +173,6 @@ const addToCartHandler = () => {
   }
 }
 
-const buyNow = () => {
-  if (product.value) {
-    addToCart(product.value)
-    router.push('/cart')
-  }
-}
-
-const goToProduct = (productId: string) => {
-  router.push(`/product/${productId}`)
-}
 </script>
 
 <style scoped>
@@ -216,6 +214,9 @@ const goToProduct = (productId: string) => {
 
 .product-image-section {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .main-image img {
@@ -226,10 +227,27 @@ const goToProduct = (productId: string) => {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+.image-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s;
+}
+
+.thumbnail.selected {
+  border: 2px solid #0a2342;
+}
+
 .stock-status {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
@@ -250,6 +268,7 @@ const goToProduct = (productId: string) => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: flex-start;
 }
 
 .product-title {
@@ -293,6 +312,10 @@ const goToProduct = (productId: string) => {
   color: #e74c3c;
 }
 
+.product-description {
+  text-align: left;
+}
+
 .product-description h3 {
   margin: 0 0 10px 0;
   color: #333;
@@ -309,7 +332,7 @@ const goToProduct = (productId: string) => {
   margin: 20px 0;
 }
 
-.add-to-cart-btn, .buy-now-btn {
+.add-to-cart-btn {
   padding: 12px 24px;
   border: none;
   border-radius: 6px;
@@ -328,16 +351,7 @@ const goToProduct = (productId: string) => {
   background: #1a3a5a;
 }
 
-.buy-now-btn {
-  background: #e74c3c;
-  color: white;
-}
-
-.buy-now-btn:hover:not(:disabled) {
-  background: #c0392b;
-}
-
-.add-to-cart-btn:disabled, .buy-now-btn:disabled {
+.add-to-cart-btn:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
@@ -422,54 +436,6 @@ const goToProduct = (productId: string) => {
   color: #666;
 }
 
-.related-products {
-  margin-top: 40px;
-}
-
-.related-products h3 {
-  margin: 0 0 20px 0;
-  color: #333;
-}
-
-.related-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.related-item {
-  background: white;
-  border-radius: 8px;
-  padding: 15px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.related-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.related-item img {
-  width: 100%;
-  height: 120px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
-
-.related-info h4 {
-  margin: 0 0 5px 0;
-  font-size: 14px;
-  color: #333;
-}
-
-.related-price {
-  margin: 0;
-  font-weight: bold;
-  color: #e74c3c;
-}
-
 .product-not-found {
   text-align: center;
   padding: 60px 20px;
@@ -512,9 +478,11 @@ const goToProduct = (productId: string) => {
   .tab-buttons {
     flex-wrap: wrap;
   }
-  
-  .related-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
+}
+
+.rating-stock-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 </style> 
