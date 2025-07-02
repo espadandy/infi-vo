@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h2 class="title">Pick your free product below:</h2>
+    <h2 class="title">Pick your product below</h2>
     <div class="grid">
       <div 
         v-for="product in products" 
@@ -8,8 +8,10 @@
         class="card"
         @click="goToProduct(product.id)"
       >
-        <img :src="getProductMainImage(product.id)" :alt="product.label" />
-        <div class="label">{{ product.label }}</div>
+        <div class="img-container">
+          <img :src="getProductMainImage(product.id)" :alt="product.label" />
+          <div class="label-overlay">{{ product.shortName }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,34 +42,46 @@ const goToProduct = (productId: string) => {
   margin: 0 auto;
 }
 .card {
-  background: #f7f7f7;
-  border-radius: 8px;
-  padding: 24px 0 0 0;
+  background: none;
+  border-radius: 12px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: none;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  transition: box-shadow 0.3s;
 }
 .card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
-.card img {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
-  margin-bottom: 16px;
-}
-.label {
-  background: #0a2342;
-  color: #fff;
+.img-container {
+  position: relative;
   width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.label-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10,35,66,0.85);
+  color: #fff;
   text-align: center;
-  padding: 12px 0;
-  font-weight: bold;
-  border-radius: 0 0 8px 8px;
-  margin-top: auto;
+  padding: 6px 0;
+  font-size: 0.95em;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 500;
+  border-radius: 0 0 12px 12px;
+  letter-spacing: 0.03em;
 }
 </style> 

@@ -36,10 +36,6 @@
             </div>
             <span class="rating-text">{{ product.rating }} ({{ product.reviews }} 评价)</span>
           </div>
-
-          <div class="stock-status" :class="{ 'in-stock': product.inStock, 'out-of-stock': !product.inStock }">
-            {{ product.inStock ? '有库存' : '缺货' }}
-          </div>
         </div>
 
         <div class="product-price">
@@ -52,22 +48,9 @@
         </div>
 
         <div class="product-actions">
-          <button class="add-to-cart-btn" @click="addToCartHandler" :disabled="!product.inStock">
-            {{ product.inStock ? '加入购物车' : '缺货' }}
+          <button class="add-to-cart-btn" @click="addToCartHandler">
+            加入购物车
           </button>
-          
-
-
-
-
-
-
-
-
-        </div>
-
-        <div class="product-category">
-          <strong>分类:</strong> {{ product.category }}
         </div>
       </div>
     </div>
@@ -87,14 +70,6 @@
       </div>
 
       <div class="tab-content">
-        <!-- Features Tab -->
-        <div v-if="activeTab === 'features'" class="tab-panel">
-          <h3>产品特色</h3>
-          <ul class="features-list">
-            <li v-for="feature in product.features" :key="feature">{{ feature }}</li>
-          </ul>
-        </div>
-
         <!-- Details Tab -->
         <div v-if="activeTab === 'details'" class="tab-panel">
           <h3>产品详情</h3>
@@ -135,11 +110,10 @@ const route = useRoute()
 const { addToCart } = useCart()
 
 const product = ref<Product | undefined>(undefined)
-const activeTab = ref('features')
+const activeTab = ref('details')
 const selectedImage = ref('')
 
 const tabs = [
-  { id: 'features', label: '产品特色' },
   { id: 'details', label: '产品详情' },
   { id: 'specifications', label: '产品规格' },
 ]
@@ -185,6 +159,7 @@ const addToCartHandler = () => {
 .breadcrumb {
   margin-bottom: 30px;
   font-size: 14px;
+  text-align: left;
 }
 
 .breadcrumb-link {
@@ -245,23 +220,6 @@ const addToCartHandler = () => {
 
 .thumbnail.selected {
   border: 2px solid #0a2342;
-}
-
-.stock-status {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.stock-status.in-stock {
-  background: #27ae60;
-  color: white;
-}
-
-.stock-status.out-of-stock {
-  background: #e74c3c;
-  color: white;
 }
 
 .product-info-section {
@@ -356,11 +314,6 @@ const addToCartHandler = () => {
   cursor: not-allowed;
 }
 
-.product-category {
-  color: #666;
-  font-size: 14px;
-}
-
 .product-tabs {
   margin: 40px 0;
 }
@@ -396,18 +349,18 @@ const addToCartHandler = () => {
   color: #333;
 }
 
-.details-list, .features-list {
+.details-list {
   list-style: none;
   padding: 0;
 }
 
-.details-list li, .features-list li {
+.details-list li {
   padding: 8px 0;
   border-bottom: 1px solid #f0f0f0;
   color: #666;
 }
 
-.details-list li:before, .features-list li:before {
+.details-list li:before {
   content: "✓";
   color: #27ae60;
   font-weight: bold;

@@ -14,7 +14,6 @@ import Header from './views/Header.vue'
 <style>
 #app {
   min-height: 100vh;
-  background: #f5f5f5;
 }
 
 main {
