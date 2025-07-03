@@ -34,7 +34,7 @@ const { totalItems } = useCart()
   border-bottom: 1px solid #eee;
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  width: 800pt;
+  width: 100%;
   gap: 40px;
 }
 
@@ -94,20 +94,5 @@ const { totalItems } = useCart()
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
-}
-
-.customer-service {
-  background: #c0392b;
-  color: #fff;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 3px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.customer-service:hover {
-  background: #a93226;
 }
 </style> 

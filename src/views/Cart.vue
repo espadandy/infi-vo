@@ -52,17 +52,19 @@ const {
 </script>
 
 <style scoped>
+
 .cart {
-  padding: 20px;
+  padding: 10px 0;
 }
+
 .title {
   text-align: center;
   margin-bottom: 30px;
   color: #333;
 }
 .cart-content {
-  max-width: 800px;
   margin: 0 auto;
+  max-width: 800px;
 }
 .empty-cart {
   text-align: center;

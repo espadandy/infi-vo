@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <h2 class="title">Pick your product below</h2>
+    <img class="banner" src="/infi-vo.png" alt="Presidential Greats" />
+    <h2 class="title">选择您的商品</h2>
     <div class="grid">
       <div 
         v-for="product in products" 
@@ -32,14 +33,15 @@ const goToProduct = (productId: string) => {
 <style scoped>
 .title {
   text-align: center;
-  margin: 32px 0 24px 0;
+  margin: 0px 0 24px 0;
+  font-size: 1.5em;
 }
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
-  max-width: 900px;
   margin: 0 auto;
+  max-width: 1100px;
 }
 .card {
   background: none;
@@ -83,5 +85,18 @@ const goToProduct = (productId: string) => {
   font-weight: 500;
   border-radius: 0 0 12px 12px;
   letter-spacing: 0.03em;
+}
+.banner {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  height: 100px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 600px) {
+  .img-container .label-overlay {
+    display: none;
+  }
 }
 </style> 

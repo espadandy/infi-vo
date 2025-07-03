@@ -3,7 +3,7 @@
     <div class="breadcrumb">
       <router-link to="/" class="breadcrumb-link">首页</router-link>
       <span class="breadcrumb-separator"> > </span>
-      <span class="breadcrumb-current">{{ product.name }}</span>
+      <span class="breadcrumb-current">{{ product.shortName }}</span>
     </div>
 
     <div class="product-container">
@@ -151,9 +151,8 @@ const addToCartHandler = () => {
 
 <style scoped>
 .product-detail {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .breadcrumb {
@@ -183,7 +182,6 @@ const addToCartHandler = () => {
 .product-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
   margin-bottom: 40px;
 }
 
@@ -233,6 +231,7 @@ const addToCartHandler = () => {
   font-size: 2em;
   color: #333;
   margin: 0;
+  text-align: left;
 }
 
 .product-rating {
@@ -355,9 +354,14 @@ const addToCartHandler = () => {
 }
 
 .details-list li {
-  padding: 8px 0;
+  padding: 12px 0;
   border-bottom: 1px solid #f0f0f0;
-  color: #666;
+  color: #2c3e50;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
 }
 
 .details-list li:before {
@@ -369,24 +373,32 @@ const addToCartHandler = () => {
 
 .specifications-table {
   display: grid;
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  font-size: 13px;
 }
 
 .spec-row {
   display: flex;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
+  flex-direction: column;
+  padding: 8px 12px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background-color: #fafafa;
 }
 
 .spec-label {
-  font-weight: bold;
+  font-weight: 500;
   color: #333;
-  width: 120px;
-  flex-shrink: 0;
+  margin-bottom: 4px;
+  font-size: 12px;
 }
 
 .spec-value {
-  color: #666;
+  color: #999;
+  font-size: 13px;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .product-not-found {
