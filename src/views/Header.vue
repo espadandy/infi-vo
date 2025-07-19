@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="logo">
-      <img src="/infi-vo.png" alt="Presidential Greats" />
+      <img src="/infi-vo.png" alt="INFI-VO" />
     </div>
     
     <nav class="navigation">

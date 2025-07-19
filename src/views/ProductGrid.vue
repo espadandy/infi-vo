@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img class="banner" src="/infi-vo.png" alt="Presidential Greats" />
+    <img class="banner" src="/infi-vo.png" alt="INFI-VO" />
     <h2 class="title">选择您的商品</h2>
     <div class="grid">
       <div 

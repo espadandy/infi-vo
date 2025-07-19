@@ -28,7 +28,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/infi-vo/'),
+  history: createWebHistory('/'),
   routes
 })
 
